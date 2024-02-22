@@ -11,9 +11,6 @@ import { Observable, startWith, map, of } from 'rxjs';
 export class AppComponent {
   title = 'app-autocomplete';
 
-  // @ViewChild('auto1') auto1: MatAutocompleteTrigger;
-  // @ViewChild('auto2') auto2: MatAutocompleteTrigger;
-
   @ViewChild('auto1Trigger', { read: MatAutocompleteTrigger }) auto1?: MatAutocompleteTrigger;
   @ViewChild('auto2Trigger', { read: MatAutocompleteTrigger }) auto2?: MatAutocompleteTrigger;
 
@@ -23,11 +20,6 @@ export class AppComponent {
   openAutocompletePanel(panel: any) {
     panel.openPanel();
   }
-
-  // openAutocompletePanel(input: HTMLInputElement) {
-  //   const trigger = new MatAutocompleteTrigger(input);
-  //   trigger.openPanel();
-  // }
 
 
   myControl = new FormControl('');
