@@ -11,9 +11,6 @@ import { Observable, startWith, map, of } from 'rxjs';
 export class AppComponent {
   title = 'app-autocomplete';
 
-  @ViewChild('auto1Trigger', { read: MatAutocompleteTrigger }) auto1?: MatAutocompleteTrigger;
-  @ViewChild('auto2Trigger', { read: MatAutocompleteTrigger }) auto2?: MatAutocompleteTrigger;
-
   options1: string[] = ['Apple', 'Banana', 'Orange'];
   options2: string[] = ['Red', 'Green', 'Blue'];
 
