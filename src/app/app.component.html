@@ -44,6 +44,8 @@
               {{option}}
             </mat-option>
           </mat-autocomplete>
+          <!-- Hint for minimum two symbols -->
+          <mat-hint *ngIf="myControl3.value && myControl3.value.length < 2">Enter at least two symbols</mat-hint>
         </mat-form-field>
 
       </form>
