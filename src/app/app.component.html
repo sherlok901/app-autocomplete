@@ -9,23 +9,33 @@
     <div class="right-side">
 
       <form class="example-form">
+
+        <!-- First autocomplete -->
         <mat-form-field class="example-full-width">
           <mat-label>Number</mat-label>
-          <input type="text"
-                 placeholder="Pick one"
-                 aria-label="Number"
-                 matInput
-                 [formControl]="myControl"
-                 [matAutocomplete]="auto">
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            @for (option of filteredOptions | async; track option) {
-              <mat-option [value]="option">{{option}}</mat-option>
-            }
+          <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
+            [matAutocomplete]="auto1">
+          <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        
+
+        <!-- Second autocomplete -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Color</mat-label>
+          <input type="text" placeholder="Pick one" aria-label="Color" matInput [formControl]="myControl2"
+            [matAutocomplete]="auto2">
+          <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
       </form>
-      
+
 
     </div>
   </div>

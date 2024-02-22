@@ -14,25 +14,27 @@ export class AppComponent {
   options1: string[] = ['Apple', 'Banana', 'Orange'];
   options2: string[] = ['Red', 'Green', 'Blue'];
 
-  openAutocompletePanel(panel: any) {
-    panel.openPanel();
-  }
-
-
   myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
+  myControl2 = new FormControl('');
+
   filteredOptions: Observable<string[]> = of();
+  filteredOptions2: Observable<string[]> = of();
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || '')),
+      map(value => this._filter(value, this.options1))
+    );
+
+    this.filteredOptions2 = this.myControl2.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value, this.options2))
     );
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private _filter(value: string | null, options: string[]): string[] {
+    const filterValue = value?.toLowerCase() ?? "";
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return options.filter(option => option.toLowerCase().includes(filterValue ));
   }
 }
