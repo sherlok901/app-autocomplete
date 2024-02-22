@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable, startWith, map, of } from 'rxjs';
+import { Observable, startWith, map, of, debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +12,6 @@ export class AppComponent {
 
   options1: string[] = ['Apple', 'Banana', 'Orange'];
   options2: string[] = ['Red', 'Green', 'Blue'];
-  options3: string[] = [];
 
   myControl = new FormControl('');
   myControl2 = new FormControl('');
@@ -34,24 +32,24 @@ export class AppComponent {
       map(value => this._filter(value, this.options2))
     );
 
-    // Emulate fetching data from an external API
-    this.fetchExternalData().subscribe(data => {
-      this.options3 = data; // Assuming data is an array of strings
-      this.filteredOptions3 = this.myControl3.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value, this.options3))
-      );
-    });
+    this.filteredOptions3 = this.myControl3.valueChanges.pipe(
+      debounceTime(300), // Debounce user input to reduce API calls
+      distinctUntilChanged(), // Only emit when the input value changes
+      filter(value => value != null && value.length >= 2), // Only continue if input length is >= 2
+      switchMap(value => this.fetchExternalData(value ?? "")) // Fetch data from the external API
+    );
   }
 
   private _filter(value: string | null, options: string[]): string[] {
     const filterValue = value?.toLowerCase() ?? "";
 
-    return options.filter(option => option.toLowerCase().includes(filterValue ));
+    return options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   // Emulate fetching data from an external API
-  fetchExternalData(): Observable<string[]> {
-    return of(['Apple', 'Banana', 'Orange', 'Pineapple', 'Grapes']);
+  fetchExternalData(query: string): Observable<string[]> {
+    // Simulate API call with mocked data
+    const mockedData: string[] = ['Apple', 'Banana', 'Orange', 'Pineapple', 'Grapes'];
+    return of(mockedData.filter(option => option.toLowerCase().includes(query.toLowerCase())));
   }
 }
